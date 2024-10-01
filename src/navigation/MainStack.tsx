@@ -8,6 +8,7 @@ import SplashScreen from '../screens/SplashScreen';
 import PhoneNumberScreen from '../screens/PhoneNumberScreen';
 import OTPVerificationScreen from '../screens/OTPVerification';
 import EditProfile from '../screens/EditProfile';
+import PayPalPayment from '../screens/payment/paypal_payment';
 
 const Stack = createNativeStackNavigator<MainStackParamList>();
 
@@ -24,6 +25,7 @@ const MainStack = ({isSignedIn}:any):any => {
                     <Stack.Screen name="Details" component={Details} />
                     <Stack.Screen name="Settings" component={Settings} />
                     <Stack.Screen name="EditProfile" component={EditProfile} />
+                    <Stack.Screen name="PayPal" component={PayPalPayment} />
                 </>
             )
             : (

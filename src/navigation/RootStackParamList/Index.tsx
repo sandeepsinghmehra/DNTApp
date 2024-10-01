@@ -10,5 +10,6 @@ export type MainStackParamList = {
   Settings: undefined;
   EditProfile: undefined;
   Profile: undefined;
+  PayPal: undefined;
   // other screens can be added here
 };
