@@ -8,7 +8,7 @@ import ButtonComp from '../../components/ButtonComp';
 import apiClient from '../../api/axiosConfig';
 
 const LOCAL_IP = '192.168.39.230'; // Replace this with your local IP
-const FRONTEND_URL = `http://${LOCAL_IP}:8081`;
+const FRONTEND_URL = `http://${LOCAL_IP}:8081`;  
 // create a component
 const PayPalPayment = () => {
     const [isLoading, setLoading] = useState(false)
@@ -23,9 +23,9 @@ const PayPalPayment = () => {
             const result:any = await apiClient.post('/user/generate-token');
             console.log("token: ", result.data.token);
             // const res = await paypalApi.createOrder(token)
-            const response:any = await apiClient.post("/user/create-order", { amount: 10, currency: "USD", token: result.data.token })
+            const response:any = await apiClient.post("/user/create-order", { amount: 12, currency: "USD", token: result.data.token })
             setAccessToken(result.data.token)
-            console.log("res++++++", response.data.response.links);
+            console.log("res++++++", response.data);
             setLoading(false)
             if (!!(response?.data?.response?.links)) {
                 const findUrl = response.data.response.links.find((dataItem:any) => dataItem?.rel === "approve")
@@ -46,12 +46,13 @@ const PayPalPayment = () => {
 
     const onUrlChange = (webviewState:any) => {
         console.log("webviewStatewebviewState", webviewState)
-        if (webviewState.url.includes(`${FRONTEND_URL}/cancel`)) {
+        // if (webviewState.url.includes(`${FRONTEND_URL}/cancel`)) {
+        if (webviewState.url.includes(`dntapp://cancel`)) {
             clearPaypalState()
             return;
         }
-        if (webviewState.url.includes(`${FRONTEND_URL}/success`)) {
-
+        // if (webviewState.url.includes(`${FRONTEND_URL}/success`)) {
+        if (webviewState.url.includes(`dntapp://success`)) {
             const urlValues = queryString.parseUrl(webviewState.url)
             console.log("my urls value", urlValues)
             const { token } = urlValues.query
@@ -106,7 +107,9 @@ const PayPalPayment = () => {
                             <WebView
                                 source={{ uri: paypalUrl }}
                                 onNavigationStateChange={onUrlChange}
-
+                                javaScriptEnabled={true}
+                                domStorageEnabled={true}
+                                startInLoadingState={true} 
                             />
                         </View>
 
